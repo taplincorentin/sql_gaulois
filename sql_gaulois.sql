@@ -147,3 +147,4 @@
     ON po.id_potion = ab.id_potion
     WHERE po.nom_potion <> 'Magique'
     GROUP BY p.nom_personnage
+
