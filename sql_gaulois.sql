@@ -128,3 +128,15 @@
         AND l.nom_lieu <> 'Village gaulois'
         GROUP BY l.id_lieu
     )
+
+
+--exo14--
+    SELECT p.nom_personnage
+    FROM personnage p
+    LEFT JOIN boire b
+    ON p.id_personnage = b.id_personnage
+    WHERE b.dose_boire IS NULL
+
+
+--exo15--
+    
