@@ -100,7 +100,7 @@
 
 
 --exo11--
-    SELECT tc.nom_type_casque, COUNT(c.casque_id)
+    SELECT tc.nom_type_casque, COUNT(c.id_casque) AS nb_casques, SUM(c.cout_casque) AS cout_total
     FROM type_casque tc, casque c 
     WHERE tc.id_type_casque = c.id_type_casque
     GROUP BY tc.nom_type_casque
