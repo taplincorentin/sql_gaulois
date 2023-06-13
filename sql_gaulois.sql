@@ -139,4 +139,11 @@
 
 
 --exo15--
-    
+    SELECT p.nom_personnage
+    FROM autoriser_boire ab
+    RIGHT JOIN personnage p
+    ON p.id_personnage = ab.id_personnage
+    INNER JOIN potion po
+    ON po.id_potion = ab.id_potion
+    WHERE po.nom_potion <> 'Magique'
+    GROUP BY p.nom_personnage
