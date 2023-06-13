@@ -104,3 +104,27 @@
     FROM type_casque tc, casque c 
     WHERE tc.id_type_casque = c.id_type_casque
     GROUP BY tc.nom_type_casque
+    ORDER BY cout_total DESC
+
+
+--exo12--
+    SELECT p.nom_potion
+    FROM composer c 
+    INNER JOIN potion p ON c.id_potion = p.id_potion
+    INNER JOIN ingredient i ON c.id_ingredient = i.id_ingredient
+    WHERE i.nom_ingredient = 'Poisson frais'
+
+--exo13--
+	SELECT l.nom_lieu, COUNT(p.id_personnage) AS nb_personnes
+    FROM lieu l
+    INNER JOIN personnage p
+    ON p.id_lieu = l.id_lieu
+    WHERE l.nom_lieu <> 'Village gaulois'
+    GROUP BY l.id_lieu
+    HAVING nb_personnes >= ALL(
+        SELECT COUNT(p.id_personnage)
+        FROM lieu l, personnage p
+        WHERE l.id_lieu = p.id_lieu
+        AND l.nom_lieu <> 'Village gaulois'
+        GROUP BY l.id_lieu
+    )
