@@ -9,18 +9,18 @@
         echo $personnage['nom_personnage']."<br>";
     }
 
-    //another example: show address from name
+    //another example trying to get character name from a location and activity
     
 
-        $query = 'SELECT adresse_personnage FROM personnage WHERE nom_personnage = :personnage';
+        $query = 'SELECT nom_personnage FROM personnage 
+                            WHERE id_lieu = :id_lieu AND id_specialite = :id_specialite';
         $statement = $db->prepare($query);
         $statement->execute([
-            'personnage'=> 'Bonemine',
+            'id_lieu' => 1,
+            'id_specialite' => 7,
         ]);
         $res = $statement->fetchAll();
-        var_dump($res);
-
- 
-
-
+        foreach($res as $personnage){
+            echo $personnage['nom_personnage']."<br>";
+        }
 ?>
