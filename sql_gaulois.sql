@@ -139,12 +139,45 @@
 
 
 --exo15--
-    SELECT p.nom_personnage
-    FROM autoriser_boire ab
-    RIGHT JOIN personnage p
-    ON p.id_personnage = ab.id_personnage
-    INNER JOIN potion po
-    ON po.id_potion = ab.id_potion
-    WHERE po.nom_potion <> 'Magique'
-    GROUP BY p.nom_personnage
+    SELECT nom_personnage 
+    FROM personnage p 
+    WHERE id_personnage
+    NOT IN (SELECT id_personnage
+            FROM autoriser_boire ab 
+            INNER JOIN potion po 
+            ON ab.id_potion = po.id_potion
+            WHERE nom_potion = 'Magique')
 
+
+
+--MODIFY DATABASE--
+--A--
+    INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_specialite)
+    VALUES ('Champdeblix', 'Ferme Hantassion',
+        (SELECT id_lieu FROM lieu WHERE nom_lieu = 'Rotomagus'),
+        (SELECT id_specialite FROM specialite WHERE nom_specialite = 'Agriculteur')
+    )
+
+--B--
+    INSERT INTO autoriser_boire
+    VALUES ((SELECT id_potion FROM potion WHERE nom_potion = 'Magique'),
+        (SELECT id_personnage FROM personnage WHERE nom_personnage = 'Bonemine')
+    )
+
+--C--
+    /*DELETE FROM casque
+    WHERE nom_casque
+    IN (SELECT nom_casque
+        FROM casque c 
+        INNER JOIN type_casque tc ON c.id_type_casque = tc.id_type_casque
+        LEFT JOIN prendre_casque pc ON c.id_casque = pc.id_casque
+        WHERE tc.nom_type_casque = 'Grec'
+        AND id_bataille IS NULL
+    )
+    ERROR occurs when you try to update or delete a table that is also used in a subquery*/
+
+    DELETE FROM casque
+    WHERE id_type_casque = (SELECT id_type_casque
+                            FROM type_casque
+                            WHERE nom_type_casque = 'Grec')
+    AND id_casque NOT IN (SELECT id_casque FROM prendre_casque)
