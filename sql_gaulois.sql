@@ -181,3 +181,36 @@
                             FROM type_casque
                             WHERE nom_type_casque = 'Grec')
     AND id_casque NOT IN (SELECT id_casque FROM prendre_casque)
+
+
+--D--
+	UPDATE personnage
+    SET adresse_personnage = 'Prison', 
+        id_lieu = (SELECT id_lieu
+                    FROM lieu
+                    WHERE nom_lieu = 'Condate')
+    WHERE nom_personnage = 'Zérozérosix'
+
+
+--E--
+    DELETE FROM composer
+    WHERE id_ingredient = (SELECT id_ingredient
+                        FROM ingredient
+                        WHERE nom_ingredient = 'Persil')
+    AND id_potion = (SELECT id_potion
+                    FROM potion 
+                    WHERE nom_potion = 'Soupe')
+
+
+--F--
+    UPDATE prendre_casque
+    SET id_casque = (SELECT id_casque
+                    FROM casque
+                    WHERE nom_casque = 'Weisenau'),
+        qte = 42
+    WHERE id_personnage = (SELECT id_personnage
+                        FROM personnage
+                        WHERE nom_personnage = 'Obélix')
+    AND id_bataille = (SELECT id_bataille
+                    FROM bataille
+                    WHERE nom_bataille = 'Attaque de la banque postale')
